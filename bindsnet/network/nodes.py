@@ -95,12 +95,15 @@ class Nodes(torch.nn.Module):
         """
         if self.traces:
             # Decay and set spike traces.
-            self.x *= self.trace_decay
+            self.x_pre *= self.trace_decay
+            self.x_post *= self.trace_decay
 
             if self.traces_additive:
-                self.x += self.trace_scale * self.s.float()
+                self.x_pre += self.trace_scale * self.s.float()
+                self.x_post += self.trace_scale * self.s.float()
             else:
-                self.x.masked_fill_(self.s.bool(), self.trace_scale)
+                self.x_pre.masked_fill_(self.s.bool(), self.trace_scale)
+                self.x_post.masked_fill_(self.s.bool(), self.trace_scale)
 
         if self.sum_input:
             # Add current input to running sum.
@@ -114,7 +117,8 @@ class Nodes(torch.nn.Module):
         self.s.zero_()
 
         if self.traces:
-            self.x.zero_()  # Spike traces.
+            self.x_pre.zero_()  # Spike traces.
+            self.x_post.zero_() 
 
         if self.sum_input:
             self.summed.zero_()  # Summed inputs.
@@ -143,7 +147,8 @@ class Nodes(torch.nn.Module):
         )
 
         if self.traces:
-            self.x = torch.zeros(batch_size, *self.shape, device=self.x.device)
+            self.x_pre = torch.zeros(batch_size, *self.shape, device=self.x_pre.device)
+            self.x_post = torch.zeros(batch_size, *self.shape, device=self.x_post.device)
 
         if self.sum_input:
             self.summed = torch.zeros(
