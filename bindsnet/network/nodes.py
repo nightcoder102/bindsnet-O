@@ -152,6 +152,8 @@ class Nodes(torch.nn.Module):
             self.trace_decay_post = torch.exp(
                 -self.dt / self.tau_post
             ) 
+            print(f'self.tau_pre: {self.tau_pre}')
+            print(f'self.tau_post: {self.tau_post}')
             print(f'self.trace_decay_post: {self.trace_decay_post}')
             print(f'self.trace_decay_pre: {self.trace_decay_pre}')
             
