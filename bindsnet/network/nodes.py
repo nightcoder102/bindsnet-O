@@ -117,8 +117,8 @@ class Nodes(torch.nn.Module):
                 self.x_pre += self.trace_scale * self.s.float()
                 self.x_post += self.trace_scale * self.s.float()
             else:
-                self.x_pre.masked_fill_(self.s.bool(), self.trace_scale)
-                self.x_post.masked_fill_(self.s.bool(), self.trace_scale)
+                self.x_pre.masked_fill_(self.s.bool(),A_pre)
+                self.x_post.masked_fill_(self.s.bool(), A_post)
 
         if self.sum_input:
             # Add current input to running sum.
