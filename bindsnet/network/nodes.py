@@ -66,7 +66,8 @@ class Nodes(torch.nn.Module):
         self.sum_input = sum_input  # Whether to sum all inputs.
 
         if self.traces:
-            self.register_buffer("x", torch.Tensor())  # Firing traces.
+            self.register_buffer("x_pre", torch.Tensor())  # Firing traces.
+            self.register_buffer("x_post", torch.Tensor())
             self.register_buffer(
                 "tc_trace", torch.tensor(tc_trace)
             )  # Time constant of spike trace decay.
@@ -211,6 +212,7 @@ class Input(Nodes, AbstractInput):
             tc_trace=tc_trace,
             trace_scale=trace_scale,
             sum_input=sum_input,
+            
         )
 
     def forward(self, x: torch.Tensor) -> None:
