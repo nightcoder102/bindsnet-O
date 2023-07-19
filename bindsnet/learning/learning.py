@@ -395,7 +395,7 @@ class PostPre(LearningRule):
         # Pre-synaptic update.
         if self.nu[0].any():
             source_s = self.source.s.view(batch_size, -1).unsqueeze(2).float()
-            target_x = self.target.x_pre.view(batch_size, -1).unsqueeze(1) * self.nu[0]
+            target_x = self.target.x_post.view(batch_size, -1).unsqueeze(1) * self.nu[0]
             self.connection.w -= self.reduction(torch.bmm(source_s, target_x), dim=0)
             del source_s, target_x
 
