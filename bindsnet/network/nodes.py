@@ -72,11 +72,23 @@ class Nodes(torch.nn.Module):
                 "tc_trace", torch.tensor(tc_trace)
             )  # Time constant of spike trace decay.
             self.register_buffer(
+                "tau_pre", torch.tensor(tc_trace)
+            ) 
+            self.register_buffer(
+                "tau_post", torch.tensor(tc_trace)
+            ) 
+            self.register_buffer(
                 "trace_scale", torch.tensor(trace_scale)
             )  # Scaling factor for spike trace.
             self.register_buffer(
                 "trace_decay", torch.empty_like(self.tc_trace)
             )  # Set in compute_decays.
+            self.register_buffer(
+                "trace_decay_pre", torch.empty_like(self.tc_trace)
+            ) 
+            self.register_buffer(
+                "trace_decay_post", torch.empty_like(self.tc_trace)
+            ) 
 
         if self.sum_input:
             self.register_buffer("summed", torch.FloatTensor())  # Summed inputs.
@@ -131,11 +143,15 @@ class Nodes(torch.nn.Module):
         """
         self.dt = torch.tensor(dt)
         if self.traces:
-            print(f'self.tc_trace: {self.tc_trace}')
             self.trace_decay = torch.exp(
                 -self.dt / self.tc_trace
             )  # Spike trace decay (per timestep).
-            print(f'self.trace_decay: {self.trace_decay}')
+            self.trace_decay_pre = torch.exp(
+                -self.dt / self.tau_pre
+            ) 
+            self.trace_decay_post = torch.exp(
+                -self.dt / self.tau_post
+            ) 
 
     def set_batch_size(self, batch_size) -> None:
         # language=rst
