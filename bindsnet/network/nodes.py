@@ -131,9 +131,11 @@ class Nodes(torch.nn.Module):
         """
         self.dt = torch.tensor(dt)
         if self.traces:
+            print(f'self.tc_trace: {self.tc_trace}')
             self.trace_decay = torch.exp(
                 -self.dt / self.tc_trace
             )  # Spike trace decay (per timestep).
+            print(f'self.trace_decay: {self.trace_decay}')
 
     def set_batch_size(self, batch_size) -> None:
         # language=rst
