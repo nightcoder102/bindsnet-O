@@ -108,8 +108,8 @@ class Nodes(torch.nn.Module):
         """
         if self.traces:
             # Decay and set spike traces.
-            self.x_pre *= self.trace_decay
-            self.x_post *= self.trace_decay
+            self.x_pre *= self.trace_decay_pre
+            self.x_post *= self.trace_decay_post
 
             if self.traces_additive:
                 self.x_pre += self.trace_scale * self.s.float()
