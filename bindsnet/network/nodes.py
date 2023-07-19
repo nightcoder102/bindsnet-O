@@ -72,10 +72,10 @@ class Nodes(torch.nn.Module):
                 "tc_trace", torch.tensor(tc_trace)
             )  # Time constant of spike trace decay.
             self.register_buffer(
-                "tau_pre", torch.tensor(tc_trace)
+                "tau_pre", torch.tensor(5.16)
             ) 
             self.register_buffer(
-                "tau_post", torch.tensor(tc_trace)
+                "tau_post", torch.tensor(7.47)
             ) 
             self.register_buffer(
                 "trace_scale", torch.tensor(trace_scale)
