@@ -165,6 +165,7 @@ class DiehlAndCook2015(Network):
             tau_post = tau_post,
             A_pre = A_pre,
             A_post = A_post,
+            g_max = g_max,
             standard_deviation=standard_deviation,
         )
         inh_layer = LIFNodes(
