@@ -113,6 +113,7 @@ class DiehlAndCook2015(Network):
         g_max: Union[float, torch.Tensor] = 40e-6,
         tau_pre: Union[float, torch.Tensor] = 5.16,
         tau_post: Union[float, torch.Tensor] = 7.47,
+        standard_deviation: Union[float, torch.Tensor] =  0.0,
     ) -> None:
         # language=rst
         """
@@ -164,7 +165,8 @@ class DiehlAndCook2015(Network):
             tau_pre= tau_pre,
             tau_post = tau_post,
             A_pre = A_pre,
-            A_post = A_post
+            A_post = A_post,
+            standard_deviation=standard_deviation,
         )
         inh_layer = LIFNodes(
             n=self.n_neurons,
