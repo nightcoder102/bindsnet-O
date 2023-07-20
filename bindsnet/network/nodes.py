@@ -19,10 +19,13 @@ class Nodes(torch.nn.Module):
         traces: bool = False,
         traces_additive: bool = False,
         tc_trace: Union[float, torch.Tensor] = 20.0,
+        tau_pre: Union[float, torch.Tensor] = 5.16,
+        tau_post: Union[float, torch.Tensor] = 7.47,
         trace_scale: Union[float, torch.Tensor] = 1.0,
         A_pre: Union[float, torch.Tensor] = 8.39e-6,
         A_post: Union[float, torch.Tensor] =  8.05e-6,
         g_max: Union[float, torch.Tensor] = 40e-6,
+        standard_deviation: Union[float, torch.Tensor] = 0.0,
         sum_input: bool = False,
         learning: bool = True,
         **kwargs,
@@ -67,25 +70,40 @@ class Nodes(torch.nn.Module):
         self.register_buffer("s", torch.ByteTensor())  # Spike occurrences.
 
         self.sum_input = sum_input  # Whether to sum all inputs.
-
+        self.standard_deviation = standard_deviation
+        
         if self.traces:
             self.register_buffer("x_pre", torch.Tensor())  # Firing traces.
             self.register_buffer("x_post", torch.Tensor())
             self.register_buffer(
                 "tc_trace", torch.tensor(tc_trace)
             )  # Time constant of spike trace decay.
-            self.register_buffer(
-                "tau_pre", torch.tensor(5.16)
-            ) 
-            self.register_buffer(
-                "tau_post", torch.tensor(7.47)
-            ) 
-            self.register_buffer(
-                "A_pre", torch.tensor(A_pre)
-            ) 
-            self.register_buffer(
-                "A_post", torch.tensor(A_post)
-            ) 
+            if self.variance != 0:
+                self.register_buffer(
+                    "tau_pre", torch.tensor(torch.normal(mean=tau_pre,std=self.standard_deviation))
+                ) 
+                self.register_buffer(
+                    "tau_post", torch.tensor(torch.normal(mean=tau_post,std=self.standard_deviation))
+                ) 
+                self.register_buffer(
+                    "A_pre", torch.tensor(torch.normal(mean=A_pre,std=self.standard_deviation))
+                ) 
+                self.register_buffer(
+                    "A_post", torch.tensor(torch.normal(mean=A_post,std=self.standard_deviation))
+                )
+            else:
+                self.register_buffer(
+                    "tau_pre", torch.tensor(tau_pre)
+                ) 
+                self.register_buffer(
+                    "tau_post", torch.tensor(tau_post)
+                ) 
+                self.register_buffer(
+                    "A_pre", torch.tensor(A_pre)
+                ) 
+                self.register_buffer(
+                    "A_post", torch.tensor(A_post)
+                ) 
             self.register_buffer(
                 "g_max", torch.tensor(g_max)
             )
