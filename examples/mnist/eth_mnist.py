@@ -65,7 +65,7 @@ plot = args.plot
 gpu = args.gpu
 
 # Parameter to test the memristor for SNN.
-tau_pre= 5.16
+tau_pre= 4.31
 tau_post= 7.47
 trace_scale = 1.0
 A_pre = 8.39e-6
