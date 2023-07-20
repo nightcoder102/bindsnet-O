@@ -25,6 +25,7 @@ class Nodes(torch.nn.Module):
         A_pre: Union[float, torch.Tensor] = 8.39e-6,
         A_post: Union[float, torch.Tensor] =  8.05e-6,
         g_max: Union[float, torch.Tensor] = 40e-6,
+        g_min: Union[float, torch.Tensor] = 20e-6,
         standard_deviation: Union[float, torch.Tensor] = 0.0,
         sum_input: bool = False,
         learning: bool = True,
@@ -106,9 +107,11 @@ class Nodes(torch.nn.Module):
                 self.register_buffer(
                     "A_post", torch.tensor(A_post)
                 ) 
-            print(f'tau_pre: {self.tau_pre}')
             self.register_buffer(
                 "g_max", torch.tensor(g_max)
+            )
+            self.register_buffer(
+                "g_min", torch.tensor(g_min)
             )
             self.register_buffer(
                 "trace_scale", torch.tensor(trace_scale)
@@ -149,8 +152,8 @@ class Nodes(torch.nn.Module):
                 self.x_pre += self.trace_scale * self.s.float()
                 self.x_post += self.trace_scale * self.s.float()
             else:
-                self.x_pre.masked_fill_(self.s.bool(),self.A_pre/self.g_max)
-                self.x_post.masked_fill_(self.s.bool(), self.A_post/self.g_max)
+                self.x_pre.masked_fill_(self.s.bool(),self.A_pre/(self.g_max-self.g_min))
+                self.x_post.masked_fill_(self.s.bool(), self.A_post/(self.g_max-self.g_min))
 
         if self.sum_input:
             # Add current input to running sum.
@@ -1066,6 +1069,7 @@ class DiehlAndCookNodes(Nodes):
         A_pre: Union[float, torch.Tensor] = 8.39e-6,
         A_post: Union[float, torch.Tensor] =  8.05e-6,
         g_max: Union[float, torch.Tensor] = 40e-6,
+        g_min: Union[float, torch.Tensor] = 20e-6,
         standard_deviation: Union[float, torch.Tensor] = 0.0,
         lbound: float = None,
         one_spike: bool = True,
