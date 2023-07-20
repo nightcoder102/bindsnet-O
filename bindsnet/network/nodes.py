@@ -20,6 +20,9 @@ class Nodes(torch.nn.Module):
         traces_additive: bool = False,
         tc_trace: Union[float, torch.Tensor] = 20.0,
         trace_scale: Union[float, torch.Tensor] = 1.0,
+        A_pre: Union[float, torch.Tensor] = 8.39e-6,
+        A_post: Union[float, torch.Tensor] =  8.05e-6,
+        g_max: Union[float, torch.Tensor] = 40e-6,
         sum_input: bool = False,
         learning: bool = True,
         **kwargs,
@@ -78,13 +81,13 @@ class Nodes(torch.nn.Module):
                 "tau_post", torch.tensor(7.47)
             ) 
             self.register_buffer(
-                "A_pre", torch.tensor(8.39e-6)
+                "A_pre", torch.tensor(A_pre)
             ) 
             self.register_buffer(
-                "A_post", torch.tensor(8.05e-6)
+                "A_post", torch.tensor(A_post)
             ) 
             self.register_buffer(
-                "g_max", torch.tensor(40e-6)
+                "g_max", torch.tensor(g_max)
             )
             self.register_buffer(
                 "trace_scale", torch.tensor(trace_scale)
