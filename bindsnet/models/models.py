@@ -146,11 +146,19 @@ class DiehlAndCook2015(Network):
         self.exc = exc
         self.inh = inh
         self.dt = dt
-
+        """
+        self.tau_pre= tau_pre
+        self.tau_post = tau_post
+        self.A_pre = A_pre
+        self.A_post =A_post
+        self.g_max = g_max
+        self.standard_deviation= standard_deviation
+        """
         # Layers
         input_layer = Input(
             n=self.n_inpt, shape=self.inpt_shape, traces=True, tc_trace=20.0
         )
+        print(f'tau_pre: {tau_pre}')
         exc_layer = DiehlAndCookNodes(
             n=self.n_neurons,
             traces=True,
