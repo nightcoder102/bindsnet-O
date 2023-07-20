@@ -97,7 +97,7 @@ network = DiehlAndCook2015(
     norm=78.4,
     theta_plus=theta_plus,
     inpt_shape=(1, 28, 28),
-    nu=[1e-2,1e-2], # not sure if I should be doing that
+    nu=[1e-3,1e-3], # not sure if I should be doing that
     wmin = 0,
     wmax = 1,
 )
