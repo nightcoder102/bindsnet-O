@@ -64,6 +64,16 @@ train = args.train
 plot = args.plot
 gpu = args.gpu
 
+# Parameter to test the memristor for SNN.
+tau_pre= 5.16
+tau_post= 7.47
+trace_scale = 1.0
+A_pre = 8.39e-6
+A_post =  8.05e-6
+g_max= 40e-6
+standard_deviation=0.0
+
+
 # Sets up Gpu use
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if gpu and torch.cuda.is_available():
@@ -100,6 +110,12 @@ network = DiehlAndCook2015(
     nu=[1e-3,1e-3],
     wmin = 0,
     wmax = 1,
+    A_pre=A_pre,
+    A_post=A_post,
+    tau_pre=tau_pre,
+    tau_post=tau_post,
+    g_max=g_max,
+    standard_deviation=standard_deviation,
 )
 
 # Directs network to GPU
