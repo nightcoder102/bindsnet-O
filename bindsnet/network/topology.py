@@ -247,7 +247,6 @@ class Connection(AbstractConnection):
         """
         if self.norm is not None:
             w_abs_sum = self.w.abs().sum(0).unsqueeze(0)
-            print(f'w_abs_sum: {w_abs_sum}')
             w_abs_sum[w_abs_sum == 0] = 1.0
             self.w *= self.norm / w_abs_sum
 
