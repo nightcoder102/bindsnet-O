@@ -106,6 +106,7 @@ class Nodes(torch.nn.Module):
                 self.register_buffer(
                     "A_post", torch.tensor(A_post)
                 ) 
+            print(f'tau_pre: {tau_pre}')
             self.register_buffer(
                 "g_max", torch.tensor(g_max)
             )
