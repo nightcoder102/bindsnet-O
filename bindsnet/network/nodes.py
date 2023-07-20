@@ -70,9 +70,11 @@ class Nodes(torch.nn.Module):
         self.register_buffer("s", torch.ByteTensor())  # Spike occurrences.
 
         self.sum_input = sum_input  # Whether to sum all inputs.
-        self.standard_deviation = standard_deviation
         
         if self.traces:
+            self.register_buffer(
+                "standard_deviation", torch.tensor(standard_deviation)
+            )
             self.register_buffer("x_pre", torch.Tensor())  # Firing traces.
             self.register_buffer("x_post", torch.Tensor())
             self.register_buffer(
