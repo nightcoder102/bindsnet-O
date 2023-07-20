@@ -108,8 +108,10 @@ class Nodes(torch.nn.Module):
         """
         if self.traces:
             # Decay and set spike traces.
-            A_pre= 8.39
-            A_post= 8.05
+            A_pre= 8.39e-6
+            A_post= 8.05e-6
+            g_min = 20e-6
+            g_max = 40e-6
             self.x_pre *= self.trace_decay_pre
             self.x_post *= self.trace_decay_post
 
@@ -117,8 +119,8 @@ class Nodes(torch.nn.Module):
                 self.x_pre += self.trace_scale * self.s.float()
                 self.x_post += self.trace_scale * self.s.float()
             else:
-                self.x_pre.masked_fill_(self.s.bool(),A_pre/10)
-                self.x_post.masked_fill_(self.s.bool(), A_post/10)
+                self.x_pre.masked_fill_(self.s.bool(),A_pre/g_max)
+                self.x_post.masked_fill_(self.s.bool(), A_post/g_max)
 
         if self.sum_input:
             # Add current input to running sum.
