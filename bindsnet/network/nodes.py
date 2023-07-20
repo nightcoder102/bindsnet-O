@@ -1109,7 +1109,8 @@ class DiehlAndCookNodes(Nodes):
             tau_pre=tau_pre,
             tau_post=tau_post,
             standard_deviation=standard_deviation,
-            g_max=g_max
+            g_max=g_max,
+            g_min=g_min
         )
 
         self.register_buffer("rest", torch.tensor(rest))  # Rest voltage.
