@@ -158,7 +158,7 @@ class DiehlAndCook2015(Network):
         input_layer = Input(
             n=self.n_inpt, shape=self.inpt_shape, traces=True, tc_trace=20.0
         )
-        print(f'tau_pre: {tau_pre}')
+        print(f'tau_preDandC: {tau_pre}')
         exc_layer = DiehlAndCookNodes(
             n=self.n_neurons,
             traces=True,
