@@ -1063,7 +1063,6 @@ class DiehlAndCookNodes(Nodes):
         tc_theta_decay: Union[float, torch.Tensor] = 1e7,
         tau_pre: Union[float, torch.Tensor] = 5.16,
         tau_post: Union[float, torch.Tensor] = 7.47,
-        trace_scale: Union[float, torch.Tensor] = 1.0,
         A_pre: Union[float, torch.Tensor] = 8.39e-6,
         A_post: Union[float, torch.Tensor] =  8.05e-6,
         g_max: Union[float, torch.Tensor] = 40e-6,
