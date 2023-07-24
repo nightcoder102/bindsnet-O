@@ -85,6 +85,7 @@ class Nodes(torch.nn.Module):
                 self.register_buffer(
                     "tau_pre", torch.tensor(torch.normal(mean=tau_pre,std=tau_pre*self.standard_deviation))
                 ) 
+                print(f'self.tau_pre: {self.tau_pre}')
                 self.register_buffer(
                     "tau_post", torch.tensor(torch.normal(mean=tau_post,std=tau_post*self.standard_deviation))
                 ) 
