@@ -76,7 +76,9 @@ nu = [1e-4,1e-2] #[1e-4,1e-2]
 print(f'nu: {nu}')
 if standard_deviation>0:
     tau_pre = torch.normal(mean=tau_pre,std=tau_pre*standard_deviation,size= (n_neurons,))
-    print(tau_pre)
+    tau_post = torch.normal(mean=tau_post,std=tau_post*standard_deviation,size= (n_neurons,))
+    A_post = torch.normal(mean=A_post,std=A_post*standard_deviation,size= (n_neurons,))
+    A_pre = torch.normal(mean=A_pre,std=A_pre*standard_deviation,size= (n_neurons,))
 # Sets up Gpu use
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if gpu and torch.cuda.is_available():
