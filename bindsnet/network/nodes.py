@@ -83,16 +83,16 @@ class Nodes(torch.nn.Module):
             )  # Time constant of spike trace decay.
             if self.standard_deviation != 0:
                 self.register_buffer(
-                    "tau_pre", torch.tensor(torch.normal(mean=tau_pre,std=self.standard_deviation))
+                    "tau_pre", torch.tensor(torch.normal(mean=tau_pre,std=tau_pre*self.standard_deviation))
                 ) 
                 self.register_buffer(
-                    "tau_post", torch.tensor(torch.normal(mean=tau_post,std=self.standard_deviation))
+                    "tau_post", torch.tensor(torch.normal(mean=tau_post,std=tau_post*self.standard_deviation))
                 ) 
                 self.register_buffer(
-                    "A_pre", torch.tensor(torch.normal(mean=A_pre,std=self.standard_deviation))
+                    "A_pre", torch.tensor(torch.normal(mean=A_pre,std=A_pre*self.standard_deviation))
                 ) 
                 self.register_buffer(
-                    "A_post", torch.tensor(torch.normal(mean=A_post,std=self.standard_deviation))
+                    "A_post", torch.tensor(torch.normal(mean=A_post,std=A_post*self.standard_deviation))
                 )
             else:
                 self.register_buffer(
