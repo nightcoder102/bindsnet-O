@@ -55,7 +55,7 @@ n_workers = args.n_workers
 exc = args.exc
 inh = args.inh
 theta_plus = args.theta_plus
-time =  2000#args.time
+time = args.time
 dt = args.dt
 intensity = args.intensity
 progress_interval = args.progress_interval
@@ -72,8 +72,8 @@ A_post =  8.05e-6
 g_max= 40e-6
 g_min= 20e-6
 standard_deviation=0.0
-
-
+nu = [1e-1,1e-1]
+print(f'nu: {nu}')
 # Sets up Gpu use
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if gpu and torch.cuda.is_available():
@@ -107,7 +107,7 @@ network = DiehlAndCook2015(
     norm=78.4,
     theta_plus=theta_plus,
     inpt_shape=(1, 28, 28),
-    nu=[1e-1,1e-1],
+    nu=nu,
     wmin = 0,
     wmax = 1,
     A_pre=A_pre,
