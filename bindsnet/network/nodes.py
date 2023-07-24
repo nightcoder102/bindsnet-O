@@ -139,11 +139,16 @@ class Nodes(torch.nn.Module):
                 self.x_pre += self.trace_scale * self.s.float()
                 self.x_post += self.trace_scale * self.s.float()
             else:
-                l = self.A_pre/(self.g_max-self.g_min)
-                print(l.size())
-                print(self.s.bool().size())
-                self.x_pre.masked_fill_(self.s.bool(),l)
-                self.x_post.masked_fill_(self.s.bool(), self.A_post/(self.g_max-self.g_min))
+                if self.standard_deviation>0:
+                    l = self.A_pre/(self.g_max-self.g_min)
+                    print(l.size())
+                    print(self.s.bool().size())
+                    self.x_pre.masked_fill_(self.s.bool(),l.unsqueeze(0))
+                    self.x_post.masked_fill_(self.s.bool(), self.A_post/(self.g_max-self.g_min))
+                else:
+                    
+                    self.x_pre.masked_fill_(self.s.bool(),self.A_pre/(self.g_max-self.g_min))
+                    self.x_post.masked_fill_(self.s.bool(), self.A_post/(self.g_max-self.g_min))
 
         if self.sum_input:
             # Add current input to running sum.
