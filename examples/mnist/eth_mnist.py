@@ -71,7 +71,7 @@ A_pre = 8.39e-6
 A_post =  8.05e-6
 g_max= 40e-6
 g_min= 20e-6
-standard_deviation=0.0
+standard_deviation=0.1
 nu = [1e-4,1e-2] #[1e-4,1e-2]
 print(f'nu: {nu}')
 # Sets up Gpu use
