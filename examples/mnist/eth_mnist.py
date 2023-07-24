@@ -73,6 +73,7 @@ g_max= 40e-6
 g_min= 20e-6
 standard_deviation=0.1
 nu = [1e-4,1e-2] #[1e-4,1e-2]
+print("goal: test of variation function.")
 print(f'nu: {nu}')
 if standard_deviation>0:
     tau_pre = torch.normal(mean=tau_pre,std=tau_pre*standard_deviation,size= (n_neurons,))
