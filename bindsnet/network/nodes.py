@@ -141,8 +141,6 @@ class Nodes(torch.nn.Module):
             else:
                 if self.standard_deviation>0:
                     l = self.A_pre/(self.g_max-self.g_min)
-                    print(l.size())
-                    print(self.s.bool().size())
                     self.x_pre= torch.where(self.s.bool(),l,self.x_pre)
                     self.x_post= torch.where(self.s.bool(), self.A_post/(self.g_max-self.g_min),self.x_post)
                 else:
