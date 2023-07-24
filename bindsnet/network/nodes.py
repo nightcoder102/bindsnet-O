@@ -140,7 +140,8 @@ class Nodes(torch.nn.Module):
                 self.x_post += self.trace_scale * self.s.float()
             else:
                 l = self.A_pre/(self.g_max-self.g_min)
-                print(l.size)
+                print(l.size())
+                print(l.shape)
                 self.x_pre.masked_fill_(self.s.bool(),l)
                 self.x_post.masked_fill_(self.s.bool(), self.A_post/(self.g_max-self.g_min))
 
