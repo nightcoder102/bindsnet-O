@@ -107,7 +107,7 @@ def getAccuracy(seed= 0,
     train_dataset = MNIST(
         PoissonEncoder(time=time, dt=dt),
         None,
-        root=os.path.join("..", "..", "data", "MNIST"),
+        root=os.path.join("~", "bindsnet", "data", "MNIST"),
         download=True,
         train=True,
         transform=transforms.Compose(
