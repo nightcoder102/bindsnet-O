@@ -47,7 +47,7 @@ def getAccuracy(seed= 0,
                 g_max = 40e-6,
                 g_min =20e-6,
                 standard_deviation = 0.3,
-                nu = [1e-4,1e-2])
+                nu = [1e-4,1e-2],)
     print(f"goal: test of variation {standard_deviation}.")
     print(f'nu: {nu}')
     if standard_deviation>0:
