@@ -45,7 +45,8 @@ gpu = True #should you use GPU.
 
 
 
-params = get_STDP_param_from_data()
+params = get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse number', cn= 'Conductance',
+            reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= False)
 """
 get_STDP_param_from_data will get all the data from the directory in the path dirpath.
 This means that if you have several set of data in different file you can just put all of them
