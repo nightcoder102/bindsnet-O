@@ -4,13 +4,14 @@ from getSTDPParameterFromData import get_STDP_param_from_data
 import os
 import time
 from math import isnan
-
+print('not master')
 def create_directory(directory_name='logs'):
     # Create the directory if it doesn't exist
     if not os.path.exists(directory_name):
         os.makedirs(directory_name)
-        return directory_name
-    return None
+        print(f"Directory '{directory_name}' created.")
+    else:
+        print(f"Directory '{directory_name}' already exists.")
 
 
 
@@ -21,17 +22,19 @@ def write_in_directory(directory_name, file_name, content):
         file.write(content)
 
 
-#hyperparameter to control the simulation 
-n_neurons = 100 #number of neurons in the simulation
-n_epochs = 1 # number of epoch
-n_test = 10000 #number of image for the testing
-n_train = 60000 # number of image for the training
-exc = 22.5 #weight of excitatory to inhibatory neuron synapse connection (exc to inh layer)
-inh=120 # weight of inhibitatory to excitatory neuron synapse connection  (rule of winner takes all)
-theta_plus=0.05 # increase of the membrane voltage each time a node fire
-time=250 # exposition time per image
+#hyperparameter to control the data 
+n_neurons = 100 #number of neurons
+n_epochs = 1 #number of epoch
+n_test = 2 #number of images for testing
+n_train = 5 #number of images for training
+exc = 22.5 #excitatory to inhibitatory weight connection
+inh=120 #inhibitatory to excitatory weight connection
+theta_plus=0.05 # increase of membran voltage per spike
+time=250 # time of image exposition
+standard_deviation = 0.0 #deviation as a percentage of mean 
+nu_post =1e-2 #learning rate post
+nu_pre= 1e-4 # learning rate pre
 
- #parameter for the print of the progress bar
 progress_interval=250
 update_interval =4000
 
@@ -59,11 +62,9 @@ g_mins = params['g_min']
 g_maxs = params['g_max']
 names = params['filenames']
 
-print(params)
-
 
 # Create the directory if it doesn't exist
-dirname=create_directory()
+create_directory()
 
 # Write the logs inside a file to save the  inside the directory
 
@@ -84,16 +85,16 @@ for i in range(len(tau_pres)):
         break
     print(f'get accuracy for the fit issued from the file: {name}')
     
-    accuracy = getAccuracy(n_neurons = 100,
-                    n_epochs = 1, 
-                    n_test = 10000,
-                    n_train = 5, 
-                    exc = 22.5,
-                    inh=120,
-                    theta_plus=0.05,
-                    time=250,
-                    progress_interval=250,
-                    update_interval =4000,
+    accuracy = getAccuracy(n_neurons = n_neurons,
+                    n_epochs = n_epochs, 
+                    n_test =n_test,
+                    n_train = n_train, 
+                    exc = exc,
+                    inh=inh,
+                    theta_plus=theta_plus,
+                    time=time,
+                    progress_interval=progress_interval,
+                    update_interval =update_interval,
                     train = train,
                     plot=plot,
                     gpu = gpu,
@@ -103,9 +104,9 @@ for i in range(len(tau_pres)):
                     A_post = A_post,
                     g_max = g_max,
                     g_min =g_min,
-                    standard_deviation = 0.0,
-                    nu_pre = 1e-4,
-                    nu_post=1e-2)
+                    standard_deviation =standard_deviation,
+                    nu_pre = nu_pre,
+                    nu_post=nu_post)
     file_content = f"Accuracy for file: {name}\n"
     file_content += f'''n_neurons = {n_neurons}\n
                     n_train = {n_train}\n
@@ -117,7 +118,6 @@ for i in range(len(tau_pres)):
                     time={time}\n
                     progress_interval={progress_interval}\n
                     update_interval ={update_interval}\n'''
-    
     file_content += '\n\n'
     all_activity_accuracy = accuracy["all"] / n_test
     propotion_activity_accuracy = accuracy["proportion"] / n_test
@@ -125,5 +125,5 @@ for i in range(len(tau_pres)):
     file_content += f'Propotion activity accuracy : {propotion_activity_accuracy}\n'
     log_name = f'accuracy_for_file_{name}.txt'
 
-    write_in_directory(dirname, log_name, file_content)
+    write_in_directory(unique_directory_name, log_name, file_content)
     
