@@ -201,6 +201,9 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
             names.append(filename)         
             print('stdp pre equation: {:.2E} + {:.2E} * exp(-x/{:.2f})'.format(g_min,A_pre,tau_pre))
             print('stdp post equation: {:.2E} {:.2E} * exp(-x/{:.2f})'.format(g_max,A_post,tau_post))
+    plt.grid()
+    plt.legend()
+    plt.show()
     return {'g_min': g_mins,
              'g_max':g_maxs,
              'tau_pre':taupreList,
