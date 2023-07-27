@@ -23,8 +23,8 @@ def write_in_directory(directory_name, file_name, content):
 #hyperparameter to control the data 
 n_neurons = 100 #number of neurons
 n_epochs = 1 #number of epoch
-n_test = 2 #number of images for testing
-n_train = 5 #number of images for training
+n_test = 4000 #number of images for testing
+n_train = 20000 #number of images for training
 exc = 22.5 #excitatory to inhibitatory weight connection
 inh=120 #inhibitatory to excitatory weight connection
 theta_plus=0.05 # increase of membran voltage per spike
