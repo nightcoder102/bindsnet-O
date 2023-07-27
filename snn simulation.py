@@ -9,9 +9,8 @@ def create_directory(directory_name='logs'):
     # Create the directory if it doesn't exist
     if not os.path.exists(directory_name):
         os.makedirs(directory_name)
-        print(f"Directory '{directory_name}' created.")
-    else:
-        print(f"Directory '{directory_name}' already exists.")
+        return directory_name
+    return None
 
 
 
@@ -22,15 +21,17 @@ def write_in_directory(directory_name, file_name, content):
         file.write(content)
 
 
-#hyperparameter to control the data 
-n_neurons = 100
-n_epochs = 1
-n_test = 10000
-n_train = 60000
-exc = 22.5
-inh=120
-theta_plus=0.05
-time=250
+#hyperparameter to control the simulation 
+n_neurons = 100 #number of neurons in the simulation
+n_epochs = 1 # number of epoch
+n_test = 10000 #number of image for the testing
+n_train = 60000 # number of image for the training
+exc = 22.5 #weight of excitatory to inhibatory neuron synapse connection (exc to inh layer)
+inh=120 # weight of inhibitatory to excitatory neuron synapse connection  (rule of winner takes all)
+theta_plus=0.05 # increase of the membrane voltage each time a node fire
+time=250 # exposition time per image
+
+ #parameter for the print of the progress bar
 progress_interval=250
 update_interval =4000
 
@@ -62,7 +63,7 @@ print(params)
 
 
 # Create the directory if it doesn't exist
-create_directory()
+dirname=create_directory()
 
 # Write the logs inside a file to save the  inside the directory
 
@@ -86,7 +87,7 @@ for i in range(len(tau_pres)):
     accuracy = getAccuracy(n_neurons = 100,
                     n_epochs = 1, 
                     n_test = 10000,
-                    n_train = 60000, 
+                    n_train = 5, 
                     exc = 22.5,
                     inh=120,
                     theta_plus=0.05,
@@ -116,6 +117,7 @@ for i in range(len(tau_pres)):
                     time={time}\n
                     progress_interval={progress_interval}\n
                     update_interval ={update_interval}\n'''
+    
     file_content += '\n\n'
     all_activity_accuracy = accuracy["all"] / n_test
     propotion_activity_accuracy = accuracy["proportion"] / n_test
@@ -123,5 +125,5 @@ for i in range(len(tau_pres)):
     file_content += f'Propotion activity accuracy : {propotion_activity_accuracy}\n'
     log_name = f'accuracy_for_file_{name}.txt'
 
-    write_in_directory(unique_directory_name, log_name, file_content)
+    write_in_directory(dirname, log_name, file_content)
     
