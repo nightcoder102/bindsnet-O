@@ -59,7 +59,41 @@ def testEq(f,x,y,p=[]):
     r2=r2_score(y,ypred)
     return (ypred,r2,popt)
 
+def fit_and_evaluate(p0, func, x_data, y_data):
+    # Perform curve_fit using the given initial guess 'p0'
+    popt, _ = opt.curve_fit(func, x_data, y_data, p0=p0)
 
+    # Calculate R2 score based on the fit
+    y_pred = func(x_data, *popt)
+    r2 = r2_score(y_data, y_pred)
+
+    return r2
+
+def find_suitable_p0(func, x_data, y_data, num_iterations=100):
+    # Initial guess for 'p0'
+    p0 = np.random.rand(len(func.__code__.co_varnames) - 1)
+
+    for _ in range(num_iterations):
+        # Make a copy of the current 'p0' for modification
+        modified_p0 = np.copy(p0)
+
+        # Choose a random index to modify
+        idx = np.random.randint(0, len(p0))
+
+        # Decide whether to increase or decrease the element at the chosen index
+        increment = np.random.choice([-1, 1])
+
+        # Modify the chosen element
+        modified_p0[idx] += increment * 0.1  # Adjust the step size as needed
+
+        # Evaluate the R2 score for the modified 'p0'
+        r2_score = fit_and_evaluate(modified_p0, func, x_data, y_data)
+
+        # Update 'p0' if the modified version leads to an improvement in R2 score
+        if r2_score > fit_and_evaluate(p0, func, x_data, y_data):
+            p0 = modified_p0
+
+    return p0
 
 def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse number', cn= 'Conductance',
             reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= True):
@@ -129,11 +163,9 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         g_max.append(linear_regression_gmax)
                 else: 
                     r2 = 0
-                    p0 = np.array([4e-5,(1e-6 if potentiation else -1e-6),-1,100])
-                    while r2<0.95:
-                        p0 = 10*p0
-                        _,r2,param =testEq(expF,x,e,p0)
-                        print(r2)
+                    p0 = find_suitable_p0(expF, x, e)
+                    _,r2,param =testEq(expF,x,e,p0)
+                    print(r2)
                     if potentiation:
                         A_post.append(param[0])
                         tau_post.append(param[1])
