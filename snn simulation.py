@@ -74,7 +74,7 @@ for i in range(len(tau_pres)):
     tau_pre=tau_pres[i]
     tau_post = tau_posts[i]
     A_pre= A_pres[i]
-    A_post = np.abs(A_posts[i]) #get the absolute value of A_post for the snn simulation. this is tinkering there is no physical meaning it's just because we substract the post trace.
+    A_post = abs(A_posts[i]) #get the absolute value of A_post for the snn simulation. this is tinkering there is no physical meaning it's just because we substract the post trace.
     g_min = g_mins[i]
     g_max = g_maxs[i]
     name = names[i]
