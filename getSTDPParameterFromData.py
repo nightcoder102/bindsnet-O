@@ -69,7 +69,7 @@ def fit_and_evaluate(p0, func, x_data, y_data):
 
     return r2
 
-def find_suitable_p0(func, x_data, y_data, num_iterations=100):
+def find_suitable_p0(func, x_data, y_data, num_iterations=1000):
     # Initial guess for 'p0'
     p0 = np.random.rand(len(func.__code__.co_varnames) - 1)
 
