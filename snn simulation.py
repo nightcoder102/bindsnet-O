@@ -9,9 +9,8 @@ def create_directory(directory_name='logs'):
     # Create the directory if it doesn't exist
     if not os.path.exists(directory_name):
         os.makedirs(directory_name)
-        print(f"Directory '{directory_name}' created.")
-    else:
-        print(f"Directory '{directory_name}' already exists.")
+        return directory_name
+    return None
 
 
 
@@ -64,7 +63,7 @@ names = params['filenames']
 
 
 # Create the directory if it doesn't exist
-create_directory()
+dirname = create_directory()
 
 # Write the logs inside a file to save the  inside the directory
 
@@ -125,5 +124,5 @@ for i in range(len(tau_pres)):
     file_content += f'Propotion activity accuracy : {propotion_activity_accuracy}\n'
     log_name = f'accuracy_for_file_{name}.txt'
 
-    write_in_directory(unique_directory_name, log_name, file_content)
+    write_in_directory(dirname, log_name, file_content)
     
