@@ -61,7 +61,7 @@ def testEq(f,x,y,p=[]):
 
 def fit_and_evaluate(p0, func, x_data, y_data):
     # Perform curve_fit using the given initial guess 'p0'
-    popt, _ = curve_fit(func, x_data, y_data, p0=p0)
+    popt, _ = curve_fit(func, x_data, y_data, p0=p0,maxfev=100000)
 
     # Calculate R2 score based on the fit
     y_pred = func(x_data, *popt)
