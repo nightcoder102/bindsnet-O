@@ -95,9 +95,12 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
             if useLinearRegressionMethod:
                 print()
                 print("You are using the linear regression method as we derive the data first gmin and gmax cannot be determine you have to enter them yourself gmin is the minimum value of the conductance respectively gmax is the maximum")
-                print("Change the value of the parameter linear_regression_gmin and linear_regression_gmax to the value you see on the graph of the data.")
+                print("then change the value of the parameter linear_regression_gmin and linear_regression_gmax to the value you see.")
                 print(f"linear_regression_gmin: {linear_regression_gmin} S, and linear_regression_gmax: {linear_regression_gmax} S")
                 print()
+            else:
+                print("you are using the curve fit method for fitting the curve it uses a Levenberg Marquardt algorithm which can be non converging toward a solution")
+                print("Make sure you define well the parameter p0 which is the first guess of the algorithm to get an R2 score that is good enough")
             A_post = []
             A_pre = []
             tau_post = []
@@ -114,8 +117,8 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
             for e in potdep:
                 #Fit the data 
                 if useLinearRegressionMethod:
-                    ys = np.log(np.abs(calculate_derivative(e)))
-                    a, b = np.polyfit(x,ys, 1)
+                    dy = np.log(np.abs(calculate_derivative(e)))
+                    a, b = np.polyfit(x,dy, 1)
                     if potentiation:
                         A_post.append(np.exp(b))
                         tau_post.append(-1/a)
@@ -125,8 +128,12 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         tau_pre.append(-1/a)
                         g_max.append(linear_regression_gmax)
                 else: 
-                    p = [4e-5,(1e-6 if potentiation else -1e-6),-1,100]
-                    _,r2,param =testEq(expF,x,e,p)
+                    r2 = 0
+                    p0 = [4e-5,(1e-6 if potentiation else -1e-6),-1,100]
+                    while r2<0.95:
+                        p0 =10*p0
+                        _,r2,param =testEq(expF,x,e,p0)
+                        print(r2)
                     if potentiation:
                         A_post.append(param[0])
                         tau_post.append(param[1])
@@ -153,8 +160,8 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
             ApostList.append(A_post)
             ApreList.append(A_pre)
             names.append(filename)         
-            print('stdp pre from depression: {:.2E} + {:.2E} * exp(-x/{:.2f})'.format(g_min,A_pre,tau_pre))
-            print('stdp post from potentiation: {:.2E} {:.2E} * exp(-x/{:.2f})'.format(g_max,A_post,tau_post))
+            print('stdp pre equation: {:.2E} + {:.2E} * exp(-x/{:.2f})'.format(g_min,A_pre,tau_pre))
+            print('stdp post equation: {:.2E} {:.2E} * exp(-x/{:.2f})'.format(g_max,A_post,tau_post))
     return {'g_min': g_mins,
              'g_max':g_maxs,
              'tau_pre':taupreList,
@@ -162,5 +169,3 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
              'A_post':ApostList,
              'A_pre': ApreList,
              'filenames':names}
-
-
