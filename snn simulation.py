@@ -83,7 +83,7 @@ for i in range(len(tau_pres)):
         break
     print(f'get accuracy for the fit issued from the file: {name}')
     
-    accuracy = getAccuracy(n_neurons = n_neurons,
+    #accuracy = getAccuracy(n_neurons = n_neurons,
                     n_epochs = n_epochs, 
                     n_test =n_test,
                     n_train = n_train, 
