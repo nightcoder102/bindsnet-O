@@ -95,7 +95,7 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
             if useLinearRegressionMethod:
                 print()
                 print("You are using the linear regression method as we derive the data first gmin and gmax cannot be determine you have to enter them yourself gmin is the minimum value of the conductance respectively gmax is the maximum")
-                print("then change the value of the parameter linear_regression_gmin and linear_regression_gmax to the value you see.")
+                print("Change the value of the parameter linear_regression_gmin and linear_regression_gmax to the value you see on the graph of the data.")
                 print(f"linear_regression_gmin: {linear_regression_gmin} S, and linear_regression_gmax: {linear_regression_gmax} S")
                 print()
             A_post = []
