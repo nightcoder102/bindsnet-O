@@ -113,8 +113,10 @@ for i in range(len(tau_pres)):
                     inh={inh}\n
                     theta_plus={theta_plus}\n
                     time={time}\n
-                    progress_interval={progress_interval}\n
-                    update_interval ={update_interval}\n'''
+                    standard_deviation = {standard_deviation}\n
+                    nu_post ={nu_post}\n 
+                    nu_pre= {nu_pre}
+                    '''
     file_content += '\n\n'
     all_activity_accuracy = accuracy["all"] / n_test
     propotion_activity_accuracy = accuracy["proportion"] / n_test
