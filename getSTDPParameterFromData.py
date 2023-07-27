@@ -129,9 +129,9 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         g_max.append(linear_regression_gmax)
                 else: 
                     r2 = 0
-                    p0 = [4e-5,(1e-6 if potentiation else -1e-6),-1,100]
+                    p0 = np.array([4e-5,(1e-6 if potentiation else -1e-6),-1,100])
                     while r2<0.95:
-                        p0 =10*p0
+                        p0 = 10*p0
                         _,r2,param =testEq(expF,x,e,p0)
                         print(r2)
                     if potentiation:
