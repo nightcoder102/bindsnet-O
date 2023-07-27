@@ -96,7 +96,7 @@ def find_suitable_p0(func, x_data, y_data, num_iterations=100):
     return p0
 
 def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse number', cn= 'Conductance',
-            reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= True):
+            reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= True,plot=True):
     # loop over all files in the directory
     taupreList = []
     taupostList =[]
@@ -153,6 +153,9 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                 if useLinearRegressionMethod:
                     dy = np.log(np.abs(calculate_derivative(e)))
                     a, b = np.polyfit(x,dy, 1)
+                    if plot:
+                        plt.scatter(x,dy,label='data')
+                        plt.plot(x,a*x+b,label = 'fit')
                     if potentiation:
                         A_post.append(np.exp(b))
                         tau_post.append(-1/a)
@@ -174,6 +177,10 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         A_pre.append(param[0])
                         tau_pre.append(param[1])
                         g_max.append(param[2])
+                    
+                    if plot:
+                        plt.scatter(x,e,label='data')
+                        plt.plot(x,np.exp(-e/param[1])*param[0]+param[2],label = 'fit')
                 potentiation= not potentiation
 
             g_min = np.mean(g_min)
