@@ -9,9 +9,8 @@ def create_directory(directory_name='logs'):
     # Create the directory if it doesn't exist
     if not os.path.exists(directory_name):
         os.makedirs(directory_name)
-        return directory_name
-    return None
-
+    return directory_name
+    
 
 
 def write_in_directory(directory_name, file_name, content):
