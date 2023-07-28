@@ -152,7 +152,7 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                 for e in range(len(potdep)):
                     filterParameter= int(2*len(potdep[e])/3)
                     potdep[e] = savgol_filter(potdep[e], filterParameter, 2)
-            for e in range(len(potdep))::
+            for e in range(len(potdep)):
                 #Fit the data 
                 if useSTDP:
                     dy = np.log(np.abs(potdep[e]))
