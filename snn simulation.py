@@ -82,7 +82,6 @@ for i in range(len(tau_pres)):
         print('error found NaN in the parameter')
         break
     print(f'get accuracy for the fit issued from the file: {name}')
-    """
     accuracy = getAccuracy(n_neurons = n_neurons,
                     n_epochs = n_epochs, 
                     n_test =n_test,
@@ -126,4 +125,3 @@ for i in range(len(tau_pres)):
     log_name = f'accuracy_for_file_{name}.txt'
 
     write_in_directory(dirname, log_name, file_content)
-    """
