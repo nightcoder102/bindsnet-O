@@ -19,16 +19,16 @@ def write_in_directory(directory_name, file_name, content):
         file.write(content)
 
 
-#hyperparameter to control the data 
+#hyperparameter to control the simulation 
 n_neurons = 100 #number of neurons
 n_epochs = 1 #number of epoch
-n_test = 4000 #number of images for testing
-n_train = 20000 #number of images for training
+n_test = 4000 #number of images for testing if you want to publish  10000
+n_train = 20000 #number of images for training if you want to publish  60000
 exc = 22.5 #excitatory to inhibitatory weight connection
 inh=120 #inhibitatory to excitatory weight connection
-theta_plus=0.05 # increase of membran voltage per spike
+theta_plus=0.05 # increase of membrane voltage per spike
 time=250 # time of image exposition
-standard_deviation = 0.0 #deviation as a percentage of mean 
+standard_deviation = 0.0 #deviation as a percentage of mean 0.1 0.2
 nu_post =1e-2 #learning rate post
 nu_pre= 1e-4 # learning rate pre
 
@@ -46,12 +46,12 @@ gpu = True #should you use GPU.
 
 
 params = get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse number', cn= 'Conductance',
-            reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= False)
+            reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= False, plot=True)
 """
 get_STDP_param_from_data will get all the data from the directory in the path dirpath.
 This means that if you have several set of data in different file you can just put all of them
 """
-#params issued from the fit
+# params issued from the fit
 tau_pres = params['tau_pre']
 tau_posts = params['tau_post']
 A_pres = params['A_pre']
