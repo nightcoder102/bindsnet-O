@@ -72,7 +72,7 @@ def fit_and_evaluate(p0, func, x_data, y_data):
 def find_suitable_p0(func, x_data, y_data, num_iterations=2000):
     # Initial guess for 'p0'
     p0 = np.random.rand(len(func.__code__.co_varnames) - 1)
-
+    
     for _ in range(num_iterations):
         # Make a copy of the current 'p0' for modification
         modified_p0 = np.copy(p0)
@@ -151,10 +151,10 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                 for e in range(len(potdep)):
                     filterParameter= int(2*len(potdep[e])/3)
                     potdep[e] = savgol_filter(potdep[e], filterParameter, 2)
-            for e in potdep:
+            for e in range(len(potdep)):
                 #Fit the data 
                 if useLinearRegressionMethod:
-                    dy = np.log(np.abs(calculate_derivative(e)))
+                    dy = np.log(np.abs(calculate_derivative(potdep[e])))
                     a, b = np.polyfit(x,dy, 1)
                     if plot:
                         plt.scatter(x,dy,label='data')
@@ -168,10 +168,9 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         tau_pre.append(-1/a)
                         g_max.append(linear_regression_gmax)
                 else: 
-                    r2 = 0
-                    p0 = find_suitable_p0(expF, x, e)
-                    print(f'pO used for the iteration {e}: {p0}')
-                    _,r2,param =testEq(expF,x,e,p0)
+                    p0 = find_suitable_p0(expF, x, potdep[e])
+                    print(f'pO used for the iteration{e}: {p0}')
+                    _,r2,param =testEq(expF,x,potdep[e],p0)
                     print(f'r2: {r2}')
                     if potentiation:
                         A_post.append(param[0])
@@ -183,8 +182,8 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         g_max.append(param[2])
                     
                     if plot:
-                        plt.scatter(x,e,label='data')
-                        plt.plot(x,np.exp(-e/param[1])*param[0]+param[2],label = 'fit')
+                        plt.scatter(x,potdep[e],label='data')
+                        plt.plot(x,np.exp(-potdep[e]/param[1])*param[0]+param[2],label = 'fit')
                 potentiation= not potentiation
 
             g_min = np.mean(g_min)
