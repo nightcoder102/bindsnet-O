@@ -97,7 +97,7 @@ def testEq(f,x,y,p=[]):
 
 
 def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse number', cn= 'Conductance',
-            reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= True, useSTDP =True):
+            reduceDataSize = 15,filterOn=True,useLinearRegressionMethod= True, useSTDP =False,plot=True):
     # loop over all files in the directory
     taupreList = []
     taupostList =[]
