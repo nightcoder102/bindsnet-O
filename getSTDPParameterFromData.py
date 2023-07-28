@@ -6,7 +6,42 @@ from scipy.optimize import curve_fit
 from sklearn.metrics import r2_score
 from scipy.signal import savgol_filter
 
+def fit_and_evaluate(p0, func, x_data, y_data):
+    # Perform curve_fit using the given initial guess 'p0'
+    popt, _ = curve_fit(func, x_data, y_data, p0=p0,maxfev=100000)
 
+    # Calculate R2 score based on the fit
+    y_pred = func(x_data, *popt)
+    r2 = r2_score(y_data, y_pred)
+
+    return r2
+
+def find_suitable_p0(func, x_data, y_data, num_iterations=2000):
+    # Initial guess for 'p0'
+    p0 = np.random.rand(len(func.__code__.co_varnames) - 1)
+
+    for _ in range(num_iterations):
+        # Make a copy of the current 'p0' for modification
+        modified_p0 = np.copy(p0)
+
+        # Choose a random index to modify
+        idx = np.random.randint(0, len(p0))
+
+        # Decide whether to increase or decrease the element at the chosen index
+        increment = np.random.choice([-1, 1])
+
+        # Modify the chosen element
+        modified_p0[idx] += increment * 0.1  # Adjust the step size as needed
+
+        # Evaluate the R2 score for the modified 'p0'
+        r2_score = fit_and_evaluate(modified_p0, func, x_data, y_data)
+
+        # Update 'p0' if the modified version leads to an improvement in R2 score
+        if r2_score > fit_and_evaluate(p0, func, x_data, y_data):
+            p0 = modified_p0
+        if r2_score> 0.95:
+            return p0
+    return p0
 def detectChangeOfPulse(p,tol=8e-6):
     indicesOfPulse= []
     sizePN = len(p)
@@ -117,10 +152,10 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                 for e in range(len(potdep)):
                     filterParameter= int(2*len(potdep[e])/3)
                     potdep[e] = savgol_filter(potdep[e], filterParameter, 2)
-            for e in potdep:
+            for e in range(len(potdep))::
                 #Fit the data 
                 if useSTDP:
-                    dy = np.log(np.abs(e))
+                    dy = np.log(np.abs(potdep[e]))
                     a, b = np.polyfit(x,dy, 1)
                     if potentiation:
                         A_post.append(np.exp(b))
@@ -130,9 +165,12 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         A_pre.append(np.exp(b))
                         tau_pre.append(-1/a)
                         g_max.append(linear_regression_gmax)
+                    if plot:
+                        plt.scatter(x,dy,label='data')
+                        plt.plot(x,a*x+b,label = 'fit')
                 else:
                     if useLinearRegressionMethod:
-                        dy = np.log(np.abs(calculate_derivative(e)))
+                        dy = np.log(np.abs(calculate_derivative(potdep[e])))
                         a, b = np.polyfit(x,dy, 1)
                         if potentiation:
                             A_post.append(np.exp(b))
@@ -142,21 +180,26 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                             A_pre.append(np.exp(b))
                             tau_pre.append(-1/a)
                             g_max.append(linear_regression_gmax)
-                    else: 
-                        r2 = 0
-                        p0 = [4e-5,(1e-6 if potentiation else -1e-6),-1,100]
-                        while r2<0.95:
-                            p0 =10*p0
-                            _,r2,param =testEq(expF,x,e,p0)
-                            print(r2)
-                        if potentiation:
-                            A_post.append(param[0])
-                            tau_post.append(param[1])
-                            g_min.append(param[2])
-                        else:
-                            A_pre.append(param[0])
-                            tau_pre.append(param[1])
-                            g_max.append(param[2])
+                        if plot:
+                            plt.scatter(x,dy,label='data')
+                            plt.plot(x,a*x+b,label = 'fit')
+                         else: 
+                            p0 = find_suitable_p0(expF, x, potdep[e])
+                            print(f'pO used for the iteration{e}: {p0}')
+                            _,r2,param =testEq(expF,x,potdep[e],p0)
+                            print(f'r2: {r2}')
+                            if potentiation:
+                                A_post.append(param[0])
+                                tau_post.append(param[1])
+                                g_min.append(param[2])
+                            else:
+                                A_pre.append(param[0])
+                                tau_pre.append(param[1])
+                                g_max.append(param[2])
+        
+                            if plot:
+                                plt.scatter(x,potdep[e],label='data')
+                                plt.plot(x,np.exp(-potdep[e]/param[1])*param[0]+param[2],label = 'fit')
                 potentiation= not potentiation
 
             g_min = np.mean(g_min)
@@ -177,6 +220,9 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
             names.append(filename)         
             print('stdp pre equation: {:.2E} + {:.2E} * exp(-x/{:.2f})'.format(g_min,A_pre,tau_pre))
             print('stdp post equation: {:.2E} {:.2E} * exp(-x/{:.2f})'.format(g_max,A_post,tau_post))
+    plt.grid()
+    plt.legend()
+    plt.show()
     return {'g_min': g_mins,
              'g_max':g_maxs,
              'tau_pre':taupreList,
