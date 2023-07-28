@@ -183,7 +183,7 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         if plot:
                             plt.scatter(x,dy,label='data')
                             plt.plot(x,a*x+b,label = 'fit')
-                     else: 
+                    else: 
                         p0 = find_suitable_p0(expF, x, potdep[e])
                         print(f'pO used for the iteration{e}: {p0}')
                         _,r2,param =testEq(expF,x,potdep[e],p0)
