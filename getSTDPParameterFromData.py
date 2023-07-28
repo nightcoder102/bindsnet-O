@@ -183,23 +183,23 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                         if plot:
                             plt.scatter(x,dy,label='data')
                             plt.plot(x,a*x+b,label = 'fit')
-                         else: 
-                            p0 = find_suitable_p0(expF, x, potdep[e])
-                            print(f'pO used for the iteration{e}: {p0}')
-                            _,r2,param =testEq(expF,x,potdep[e],p0)
-                            print(f'r2: {r2}')
-                            if potentiation:
-                                A_post.append(param[0])
-                                tau_post.append(param[1])
-                                g_min.append(param[2])
-                            else:
-                                A_pre.append(param[0])
-                                tau_pre.append(param[1])
-                                g_max.append(param[2])
-        
-                            if plot:
-                                plt.scatter(x,potdep[e],label='data')
-                                plt.plot(x,np.exp(-potdep[e]/param[1])*param[0]+param[2],label = 'fit')
+                     else: 
+                        p0 = find_suitable_p0(expF, x, potdep[e])
+                        print(f'pO used for the iteration{e}: {p0}')
+                        _,r2,param =testEq(expF,x,potdep[e],p0)
+                        print(f'r2: {r2}')
+                        if potentiation:
+                            A_post.append(param[0])
+                            tau_post.append(param[1])
+                            g_min.append(param[2])
+                        else:
+                            A_pre.append(param[0])
+                            tau_pre.append(param[1])
+                            g_max.append(param[2])
+    
+                        if plot:
+                            plt.scatter(x,potdep[e],label='data')
+                            plt.plot(x,np.exp(-potdep[e]/param[1])*param[0]+param[2],label = 'fit')
                 potentiation= not potentiation
 
             g_min = np.mean(g_min)
