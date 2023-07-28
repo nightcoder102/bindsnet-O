@@ -92,7 +92,8 @@ def find_suitable_p0(func, x_data, y_data, num_iterations=2000):
         # Update 'p0' if the modified version leads to an improvement in R2 score
         if r2_score > fit_and_evaluate(p0, func, x_data, y_data):
             p0 = modified_p0
-
+        if r2_score> 0.95:
+            return p0
     return p0
 
 def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse number', cn= 'Conductance',
