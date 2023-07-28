@@ -40,7 +40,7 @@ update_interval =4000
 
 train = True #should train the network or use one already trained?
 plot=False # should you plot everything ? Take more time to do one simulation but it's pretty.
-gpu = True #should you use GPU.
+gpu = False #should you use GPU.
 
 
 
