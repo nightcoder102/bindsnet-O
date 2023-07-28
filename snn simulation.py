@@ -104,18 +104,21 @@ for i in range(len(tau_pres)):
                     standard_deviation =standard_deviation,
                     nu_pre = nu_pre,
                     nu_post=nu_post)
-    file_content = f"Accuracy for file: {name}\n"
-    file_content += f'''n_neurons = {n_neurons}\n
-                    n_train = {n_train}\n
-                    n_epochs = {n_epochs}\n
-                    n_test = {n_test}\n
-                    exc = {exc}\n
-                    inh={inh}\n
-                    theta_plus={theta_plus}\n
-                    time={time}\n
-                    standard_deviation = {standard_deviation}\n
-                    nu_post ={nu_post}\n 
-                    nu_pre= {nu_pre}
+    file_content = f"Accuracy for file: {name}\n"         
+    file_content+= f'stdp post equation: {g_max} - {A_post} * exp(-x/{tau_post})'
+    file_content+= f'stdp pre equation: {g_min} + {A_pre} * exp(-x/{tau_pre})'
+    file_content += f'''
+    n_neurons = {n_neurons}\n
+    n_train = {n_train}\n
+    n_epochs = {n_epochs}\n
+    n_test = {n_test}\n
+    exc = {exc}\n
+    inh={inh}\n
+    theta_plus={theta_plus}\n
+    time={time}\n
+    standard_deviation = {standard_deviation}\n
+    nu_post ={nu_post}\n 
+nu_pre= {nu_pre}
                     '''
     file_content += '\n\n'
     all_activity_accuracy = accuracy["all"] / n_test
