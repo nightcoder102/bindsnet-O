@@ -69,7 +69,7 @@ def fit_and_evaluate(p0, func, x_data, y_data):
 
     return r2
 
-def find_suitable_p0(func, x_data, y_data, num_iterations=1000):
+def find_suitable_p0(func, x_data, y_data, num_iterations=2000):
     # Initial guess for 'p0'
     p0 = np.random.rand(len(func.__code__.co_varnames) - 1)
 
@@ -135,6 +135,8 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
             else:
                 print("you are using the curve fit method for fitting the curve it uses a Levenberg Marquardt algorithm which can be non converging toward a solution")
                 print("Make sure you define well the parameter p0 which is the first guess of the algorithm to get an R2 score that is good enough")
+                print('This is normally done automatically using the function find_suitable_p0, there is a limit of iteration in the function the parameter num_iterations')
+                print('make sure to always check that the ')
             A_post = []
             A_pre = []
             tau_post = []
@@ -167,8 +169,9 @@ def get_STDP_param_from_data(dir_path = os.path.expanduser("~/data"),pn='Pulse n
                 else: 
                     r2 = 0
                     p0 = find_suitable_p0(expF, x, e)
+                    print(f'pO used for the iteration {e}: {p0}')
                     _,r2,param =testEq(expF,x,e,p0)
-                    print(r2)
+                    print(f'r2: {r2}')
                     if potentiation:
                         A_post.append(param[0])
                         tau_post.append(param[1])
