@@ -70,6 +70,7 @@ dirname = create_directory()
 
 
 
+# change the params manually for the stdp fit
 for i in range(len(tau_pres)):
     tau_pre=tau_pres[i]
     tau_post = tau_posts[i]
