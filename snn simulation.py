@@ -21,7 +21,7 @@ def write_in_directory(directory_name, file_name, content):
 
 #hyperparameter to control the simulation 
 n_neurons = 100 #number of neurons
-n_epochs = 1 #number of epoch
+n_epochs = 5 #number of epoch
 n_test = 4000 #number of images for testing if you want to publish  10000
 n_train = 24000 #number of images for training if you want to publish  60000
 exc = 22.5 #excitatory to inhibitatory weight connection
@@ -38,7 +38,7 @@ update_interval =4000
 
 #parameter controlling how the simulation works
 
-train = True #should train the network or use one already trained?
+train = False #should train the network or use one already trained?
 plot=False # should you plot everything ? Take more time to do one simulation but it's pretty.
 gpu = False #should you use GPU.
 
@@ -107,7 +107,7 @@ for i in range(len(tau_pres)):
                     nu_post=nu_post)
     file_content = f"Accuracy for file: {name}\n"         
     file_content+= f'stdp post equation: {g_max} - {A_post} * exp(-x/{tau_post})\n'
-    file_content+= f'stdp pre equation: {g_min} + {A_pre} * exp(-x/{tau_pre})\n'
+    file_content+= f'stdp pre equation: {g_min} + {A_pre} * exp(x/{tau_pre})\n'
     file_content += f'''
 n_neurons = {n_neurons}\n
 n_train = {n_train}\n
