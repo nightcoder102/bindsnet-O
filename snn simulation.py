@@ -106,8 +106,8 @@ for i in range(len(tau_pres)):
                     nu_pre = nu_pre,
                     nu_post=nu_post)
     file_content = f"Accuracy for file: {name}\n"         
-    file_content+= f'stdp post equation: {g_max} - {A_post} * exp(-x/{tau_post})\n'
-    file_content+= f'stdp pre equation: {g_min} + {A_pre} * exp(x/{tau_pre})\n'
+    file_content+= f'stdp post equation: {g_max} - {A_post} * exp(x/{tau_post})\n'
+    file_content+= f'stdp pre equation: {g_min} + {A_pre} * exp(-x/{tau_pre})\n'
     file_content += f'''
 n_neurons = {n_neurons}\n
 n_train = {n_train}\n
