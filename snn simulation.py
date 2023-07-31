@@ -52,12 +52,12 @@ get_STDP_param_from_data will get all the data from the directory in the path di
 This means that if you have several set of data in different file you can just put all of them
 """
 # params issued from the fit
-tau_pres = 2.3 #params['tau_pre']
-tau_posts = 2.3 #params['tau_post']
-A_pres = 22.3 #params['A_pre']
-A_posts = 22.3 #params['A_post']
-g_mins = 20 #params['g_min']
-g_maxs = 60 #params['g_max']
+tau_pres = [2.3] #params['tau_pre']
+tau_posts = [2.3] #params['tau_post']
+A_pres = [22.3] #params['A_pre']
+A_posts = [22.3] #params['A_post']
+g_mins = [20] #params['g_min']
+g_maxs = [60] #params['g_max']
 names = params['filenames']
 
 
