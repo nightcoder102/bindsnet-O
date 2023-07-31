@@ -21,13 +21,13 @@ def write_in_directory(directory_name, file_name, content):
 
 #hyperparameter to control the simulation 
 n_neurons = 100 #number of neurons
-n_epochs = 5 #number of epoch
+n_epochs = 1 #number of epoch
 n_test = 4000 #number of images for testing if you want to publish  10000
 n_train = 24000 #number of images for training if you want to publish  60000
 exc = 22.5 #excitatory to inhibitatory weight connection
 inh=120 #inhibitatory to excitatory weight connection
 theta_plus=0.05 # increase of membrane voltage per spike
-time=250 # time of image exposition
+time=350 # time of image exposition
 standard_deviation = 0.0 #deviation as a percentage of mean 0.1 0.2
 nu_post =1e-2 #learning rate post
 nu_pre= 1e-4 # learning rate pre
@@ -38,7 +38,7 @@ update_interval =4000
 
 #parameter controlling how the simulation works
 
-train = False #should train the network or use one already trained?
+train = True #should train the network or use one already trained?
 plot=False # should you plot everything ? Take more time to do one simulation but it's pretty.
 gpu = False #should you use GPU.
 
