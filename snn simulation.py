@@ -22,8 +22,8 @@ def write_in_directory(directory_name, file_name, content):
 #hyperparameter to control the simulation 
 n_neurons = 100 #number of neurons
 n_epochs = 1 #number of epoch
-n_test = 3 #number of images for testing if you want to publish  10000
-n_train = 1 #number of images for training if you want to publish  60000
+n_test = 4000 #number of images for testing if you want to publish  10000
+n_train = 24000 #number of images for training if you want to publish  60000
 exc = 22.5 #excitatory to inhibitatory weight connection
 inh=120 #inhibitatory to excitatory weight connection
 theta_plus=0.05 # increase of membrane voltage per spike
@@ -52,12 +52,12 @@ get_STDP_param_from_data will get all the data from the directory in the path di
 This means that if you have several set of data in different file you can just put all of them
 """
 # params issued from the fit
-tau_pres = params['tau_pre']
-tau_posts = params['tau_post']
-A_pres = params['A_pre']
-A_posts = params['A_post']
-g_mins = params['g_min']
-g_maxs = params['g_max']
+tau_pres = 2.3 #params['tau_pre']
+tau_posts = 2.3 #params['tau_post']
+A_pres = 22.3 #params['A_pre']
+A_posts = 22.3 #params['A_post']
+g_mins = 20 #params['g_min']
+g_maxs = 60 #params['g_max']
 names = params['filenames']
 
 
