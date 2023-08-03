@@ -20,7 +20,7 @@ def write_in_directory(directory_name, file_name, content):
 
 
 #hyperparameter to control the simulation 
-n_neurons = 400 #number of neurons
+n_neurons = 600 #number of neurons
 n_epochs = 1 #number of epoch
 n_test = 10000 #number of images for testing if you want to publish  10000
 n_train = 60000 #number of images for training if you want to publish  60000
